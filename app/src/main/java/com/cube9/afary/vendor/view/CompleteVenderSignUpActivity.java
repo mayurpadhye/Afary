@@ -1,5 +1,6 @@
 package com.cube9.afary.vendor.view;
 
+import android.net.Uri;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,9 +15,10 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CompleteVenderSignUpActivity extends AppCompatActivity {
-@BindView(R.id.view_pager_one)
-    ViewPager view_pager_one;
+public class CompleteVenderSignUpActivity extends AppCompatActivity implements SelectSkillFragment.OnFragmentInteractionListener, TakePhotoFragment.OnFragmentInteractionListener {
+    @BindView(R.id.view_pager_one)
+    CustomViewPager view_pager_one;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,16 +26,9 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         LinearLayout indicatorContainer = (LinearLayout) findViewById(R.id.indicator_cont);
 
-        // Populate ViewPager with necessary information
-        final ArrayList<Integer> drawableResources = new ArrayList<>();
 
-        drawableResources.add(R.drawable.home);
-        drawableResources.add(R.drawable.home);
-        drawableResources.add(R.drawable.home);
-        drawableResources.add(R.drawable.home);
-        drawableResources.add(R.drawable.home);
-
-        SignUpAdapter   adapterViewPager = new SignUpAdapter(getSupportFragmentManager());
+        view_pager_one.setPagingEnabled(false);
+        SignUpAdapter adapterViewPager = new SignUpAdapter(getSupportFragmentManager());
         view_pager_one.setAdapter(adapterViewPager);
 
         // Get resources for drawables
@@ -49,6 +44,11 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity {
 
         // Set whether you want a progress style
         sample.setProgressStyle(true);
+
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
 
     }
 }
