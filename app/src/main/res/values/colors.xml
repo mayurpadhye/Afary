@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#026c99</color>
+    <color name="colorPrimaryDark">#01648e</color>
+    <color name="colorAccent">#4d4cc7</color>
+    <color name="white">#fff</color>
+    <color name="black">#000000</color>
+    <color name="button_round_blue">#026998</color>
+    <color name="gray">#D3D3D3</color>
+    <color name="light_blue">#91d4e8</color>
+    <color name="light_purple">#a09fe9</color>
+    <color name="light_green">#b2f0b9</color>
+    <color name="light_yellow">#f4e78d</color>
+    <color name="light_pink">#e699ef</color>
+    <color name="light_orange">#f3b6a1</color>
+    <color name="sky_blue">#44beea</color>
+    <color name="spots_dialog_color">@color/white</color>
+</resources>

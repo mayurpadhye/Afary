@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".user.home.HomeFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <EditText
+                android:id="@+id/et_search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:drawableRight="@drawable/search"
+                android:background="@drawable/edittext_shadow"
+                android:clickable="true"
+                android:editable="false"
+                android:hint="@string/search"
+                android:padding="15dp"
+
+                android:textSize="14dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_house"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/house" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/house"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_ground"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="5dp"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:layout_weight="0.5"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/ground" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/ground"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_electrician"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/electrician" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/electrician"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_plumber"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/plumber" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/plumber"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="center"
+
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:id="@+id/ll_care_taker"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/caretaker" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/care_taker"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_brushcutter"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/brushcutter" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/brush_cutter"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="55dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+
+                >
+
+                <LinearLayout
+                    android:id="@+id/ll_house_keeper"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginRight="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical"
+
+                    >
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/housekeeper" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/house_keeper"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/ll_driver"
+                    android:layout_width="match_parent"
+                    android:layout_height="120dp"
+                    android:layout_marginLeft="5dp"
+                    android:layout_weight="0.5"
+                    android:foreground="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:background="@color/light_purple"
+                    android:orientation="vertical">
+
+                    <ImageView
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_margin="15dp"
+                        android:src="@drawable/driver" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="@string/driver"
+                        android:textColor="@color/black"
+
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:text="5000 available"
+                        android:textColor="#414141"
+                        android:textSize="12dp"
+
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+</RelativeLayout>
