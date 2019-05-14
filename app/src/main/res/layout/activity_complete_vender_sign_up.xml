@@ -9,6 +9,7 @@
     tools:context=".vendor.view.CompleteVenderSignUpActivity">
 <ScrollView
     android:layout_width="match_parent"
+    android:fillViewport="true"
     android:layout_height="match_parent">
     <LinearLayout
         android:layout_width="match_parent"
@@ -20,6 +21,19 @@
             android:layout_height="match_parent"
 
             tools:context="com.avontell.pagerindicatorbinderexample.MainActivity">
+
+
+            <com.cube9.afary.vendor.view.CustomViewPager
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:id="@+id/view_pager_one"
+
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true">
+
+            </com.cube9.afary.vendor.view.CustomViewPager>
+
 
             <LinearLayout
                 android:orientation="horizontal"
@@ -33,19 +47,6 @@
                 android:layout_alignParentStart="true">
 
             </LinearLayout>
-            <com.cube9.afary.vendor.view.CustomViewPager
-                android:layout_width="match_parent"
-                android:layout_height="500dp"
-                android:layout_margin="15dp"
-                android:id="@+id/view_pager_one"
-                android:layout_below="@+id/indicator_cont"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
-
-            </com.cube9.afary.vendor.view.CustomViewPager>
-
-
-
 
         </RelativeLayout>
     </LinearLayout>

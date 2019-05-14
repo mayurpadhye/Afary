@@ -11,6 +11,12 @@ public interface IVenderSignUp {
     public void getCountryResult(List<String> countryList,List<String> countryListId);
     public int validateData(int result,int position);
 
+    interface ISelectSkill{
+        public void showProgressDailog();
+        public void hideProgressDailog();
+        public void getSubcategory();
+    }
+
 
 
 }

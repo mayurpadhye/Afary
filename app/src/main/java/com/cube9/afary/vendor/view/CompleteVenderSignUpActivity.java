@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CompleteVenderSignUpActivity extends AppCompatActivity implements SelectSkillFragment.OnFragmentInteractionListener, TakePhotoFragment.OnFragmentInteractionListener {
+public class CompleteVenderSignUpActivity extends AppCompatActivity implements SelectSkillFragment.OnFragmentInteractionListener, TakePhotoFragment.OnFragmentInteractionListener,SelectCategoryFragment.OnFragmentInteractionListener {
     @BindView(R.id.view_pager_one)
     CustomViewPager view_pager_one;
 
@@ -47,8 +47,21 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity implements S
 
     }
 
+    public void handleNextClick()
+    {
+        view_pager_one.setCurrentItem(getItem(+1), true);
+    }
+    public void previousClick()
+    {
+        view_pager_one.setCurrentItem(getItem(-1), true);
+    }
+
     @Override
     public void onFragmentInteraction(Uri uri) {
 
+    }
+
+    private int getItem(int i) {
+        return view_pager_one.getCurrentItem() + i;
     }
 }

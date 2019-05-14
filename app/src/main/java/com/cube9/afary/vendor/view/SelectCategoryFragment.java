@@ -4,33 +4,37 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import com.cube9.afary.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
-public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISelectSkill {
+public class SelectCategoryFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
+
     private String mParam1;
     private String mParam2;
+@BindView(R.id.iv_previous)
+    ImageView iv_previous;
     private OnFragmentInteractionListener mListener;
-    View v;
-    @BindView(R.id.rv_select_skills)
-    RecyclerView rv_select_skills;
-   public SelectSkillFragment() {
-        // Required empty public constructor
+View v;
+    public SelectCategoryFragment() {
+
     }
 
 
-    public static SelectSkillFragment newInstance(String param1, String param2) {
-        SelectSkillFragment fragment = new SelectSkillFragment();
+    public static SelectCategoryFragment newInstance(String param1, String param2) {
+        SelectCategoryFragment fragment = new SelectCategoryFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -51,12 +55,30 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        v= inflater.inflate(R.layout.fragment_select_skill, container, false);
+        v= inflater.inflate(R.layout.fragment_select_category, container, false);
         ButterKnife.bind(this,v);
-       return v;
-   }
-
-
+        v.setFocusableInTouchMode(true);
+        v.requestFocus();
+        v.setOnKeyListener( new View.OnKeyListener()
+        {
+            @Override
+            public boolean onKey( View v, int keyCode, KeyEvent event )
+            {
+                if( keyCode == KeyEvent.KEYCODE_BACK )
+                {
+                    ((CompleteVenderSignUpActivity)getActivity()).previousClick();
+                    return true;
+                }
+                return false;
+            }
+        } );
+        return v;
+    }
+    @OnClick(R.id.iv_previous)
+    public void onPreviousClick()
+    {
+        ((CompleteVenderSignUpActivity)getActivity()).previousClick();
+    }
 
 
     public void onButtonPressed(Uri uri) {
@@ -80,21 +102,6 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
     public void onDetach() {
         super.onDetach();
         mListener = null;
-    }
-
-    @Override
-    public void showProgressDailog() {
-
-    }
-
-    @Override
-    public void hideProgressDailog() {
-
-    }
-
-    @Override
-    public void getSubcategory() {
-
     }
 
 

@@ -403,4 +403,8 @@
     <string name="enter_house">Enter House Number</string>
     <string name="enter_street">Street</string>
     <string name="submit">Submit</string>
+    <string name="capture_image">Capture Image</string>
+    <string name="load_from_gallary">Load From Gallary</string>
+    <string name="please_wait">Please Wait</string>
+    <string name="take_photo">Take Photo</string>
 </resources>

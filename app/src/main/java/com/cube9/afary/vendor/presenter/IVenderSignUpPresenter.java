@@ -11,4 +11,10 @@ public interface IVenderSignUpPresenter {
     int setLoadingDialoVisibility(int visibility);
     //void doRegistration()
     void validateData(String f_name,String l_name,String mobile_no,String email,String password,String confirm_pass,String country);
+
+    interface  ISkillServices
+    {
+      void requestSjillServices();
+    }
+
 }

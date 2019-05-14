@@ -14,12 +14,20 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class VendorSignUpPresenter implements IVenderSignUpPresenter,IVendorSignUpModel.getCountryListInterface {
+public class VendorSignUpPresenter implements IVenderSignUpPresenter,IVendorSignUpModel.getCountryListInterface,IVenderSignUpPresenter.ISkillServices {
     IVenderSignUp iVenderSignUp;
     IVendorSignUpModel iVendorSignUpModel;
     Context context;
+IVenderSignUp.ISelectSkill iSelectSkill;
+IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface;
 
-    public VendorSignUpPresenter(IVenderSignUp iVenderSignUp, IVendorSignUpModel iVendorSignUpModel,Context context) {
+    public VendorSignUpPresenter(Context context, IVenderSignUp.ISelectSkill iSelectSkill, IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface) {
+        this.context = context;
+        this.iSelectSkill = iSelectSkill;
+        this.getSkillServicesInterface = getSkillServicesInterface;
+    }
+
+    public VendorSignUpPresenter(IVenderSignUp iVenderSignUp, IVendorSignUpModel iVendorSignUpModel, Context context) {
         this.iVenderSignUp = iVenderSignUp;
         this.context=context;
         this.iVendorSignUpModel = iVendorSignUpModel;
@@ -205,5 +213,11 @@ public class VendorSignUpPresenter implements IVenderSignUpPresenter,IVendorSign
             iVenderSignUp.hideProgressBar();
         }
 
+    }
+
+    @Override
+    public void requestSjillServices() {
+        iSelectSkill.showProgressDailog();
+       // getSkillServicesInterface.getSkillList(this);
     }
 }

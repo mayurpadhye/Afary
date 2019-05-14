@@ -3,12 +3,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     tools:context=".vendor.view.TakePhotoFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+<Button
+    android:id="@+id/btn_next"
+    android:layout_width="wrap_content"
+    android:layout_height="30dp"
+    android:text="@string/next"
+    android:layout_marginRight="8dp"
+    android:textColor="@color/black"
+    android:textSize="13dp"
+    android:textAllCaps="false"
+android:layout_marginTop="8dp"
+    android:background="@drawable/btn_rounded_stroke_white"
+   android:padding="5dp"
+    android:layout_gravity="right"
+    />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="8dp"
+                android:gravity="center
+"
+                android:lineSpacingExtra="5dp"
+                android:text="Take care to transmit a clear picture, well framed,Taken on the front and where you smile"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textSize="20dp" />
+
+            <ImageView
+                android:id="@+id/iv_preview"
+                android:layout_width="200dp"
+                android:layout_height="150dp"
+                android:visibility="visible"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="20dp"
+                />
+            <Button
+                android:id="@+id/btn_camera"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="@string/capture_image"
+                android:background="@drawable/btn_white"
+                />
+            <Button
+                android:id="@+id/btn_gallary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:text="@string/load_from_gallary"
+                android:background="@drawable/btn_white"
+                />
+        </LinearLayout>
+
+
+    </ScrollView>
 
 </FrameLayout>

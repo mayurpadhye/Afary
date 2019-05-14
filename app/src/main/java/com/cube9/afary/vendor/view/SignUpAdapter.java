@@ -22,9 +22,9 @@ public class SignUpAdapter  extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0: // Fragment # 0 - This will show FirstFragment
-                return SelectSkillFragment.newInstance("0", "Page # 1");
+                return TakePhotoFragment.newInstance("0", "Page # 1");
             case 1: // Fragment # 0 - This will show FirstFragment different title
-                return TakePhotoFragment.newInstance("1", "Page # 2");
+                return SelectCategoryFragment.newInstance("1", "Page # 2");
 
             default:
                 return null;

@@ -13,4 +13,15 @@ public interface IVendorSignUpModel {
 
    void getCountryList(getCountryListInterface getCountryListInterface);
 
+   interface getSkillServicesInterface{
+
+       interface getSkills
+       {
+           void onFinished(List<SkillServicesPojo> skillServicesPojoList);
+           void onFailure(Throwable t);
+       }
+
+       void getSkillList(getSkills getSkills);
+   }
+
 }
