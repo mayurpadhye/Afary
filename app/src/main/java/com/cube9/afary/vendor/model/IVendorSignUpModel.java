@@ -6,7 +6,8 @@ public interface IVendorSignUpModel {
 
    interface  getCountryListInterface
    {
-       void onFinished(List<String> countryList,List<String> countryListId);
+       void  onFinished(List<String> countryList,List<String> countryListId);
+
        void onFailure(Throwable t);
 
    }

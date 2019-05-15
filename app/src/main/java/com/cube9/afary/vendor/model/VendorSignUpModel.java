@@ -64,7 +64,7 @@ List<String> listCountryId=new ArrayList<>();
 
             @Override
             public void failure(RetrofitError error) {
-
+                getCountryListInterface.onFailure(error);
                 // Toast.makeText(UserSignUpActivity.this ,getResources().getString(R.string.check_internet), Toast.LENGTH_LONG ).show();
                 //CustomUtils.showToast(getResources().getString(R.string.check_internet), UserSignUpActivity.this, MDToast.TYPE_WARNING);
             }

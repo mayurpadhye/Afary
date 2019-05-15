@@ -1,11 +1,13 @@
 package com.cube9.afary.vendor.presenter;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.cube9.afary.R;
 import com.cube9.afary.helperClass.CustomUtils;
 import com.cube9.afary.user.UserSignUpActivity;
 import com.cube9.afary.vendor.model.IVendorSignUpModel;
+import com.cube9.afary.vendor.model.SkillServicesPojo;
 import com.cube9.afary.vendor.view.IVenderSignUp;
 import com.cube9.afary.vendor.view.VendorSignUpActivity;
 import com.valdesekamdem.library.mdtoast.MDToast;
@@ -20,11 +22,16 @@ public class VendorSignUpPresenter implements IVenderSignUpPresenter,IVendorSign
     Context context;
 IVenderSignUp.ISelectSkill iSelectSkill;
 IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface;
+IVendorSignUpModel.getSkillServicesInterface.getSkills getSkills;
+
 
     public VendorSignUpPresenter(Context context, IVenderSignUp.ISelectSkill iSelectSkill, IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface) {
         this.context = context;
         this.iSelectSkill = iSelectSkill;
         this.getSkillServicesInterface = getSkillServicesInterface;
+
+
+
     }
 
     public VendorSignUpPresenter(IVenderSignUp iVenderSignUp, IVendorSignUpModel iVendorSignUpModel, Context context) {
@@ -204,6 +211,9 @@ IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface;
 
     }
 
+
+
+
     @Override
     public void onFailure(Throwable t) {
 
@@ -212,12 +222,28 @@ IVendorSignUpModel.getSkillServicesInterface getSkillServicesInterface;
             iVenderSignUp.responseFailure(t);
             iVenderSignUp.hideProgressBar();
         }
+        if (iSelectSkill!=null)
+        {
+            iSelectSkill.hideProgressDailog();
+            iSelectSkill.responseFailureSubCategory(t);
+        }
 
     }
 
     @Override
     public void requestSjillServices() {
         iSelectSkill.showProgressDailog();
-       // getSkillServicesInterface.getSkillList(this);
+        getSkillServicesInterface.getSkillList(new IVendorSignUpModel.getSkillServicesInterface.getSkills() {
+            @Override
+            public void onFinished(List<SkillServicesPojo> skillServicesPojoList) {
+
+                iSelectSkill.getSubcategory(skillServicesPojoList);
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+
+            }
+        });
     }
 }

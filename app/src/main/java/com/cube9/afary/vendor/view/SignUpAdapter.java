@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 public class SignUpAdapter  extends FragmentPagerAdapter {
-    private static int NUM_ITEMS = 2;
+    private static int NUM_ITEMS = 3;
 
     public SignUpAdapter(FragmentManager fragmentManager) {
         super(fragmentManager);
@@ -25,7 +25,8 @@ public class SignUpAdapter  extends FragmentPagerAdapter {
                 return TakePhotoFragment.newInstance("0", "Page # 1");
             case 1: // Fragment # 0 - This will show FirstFragment different title
                 return SelectCategoryFragment.newInstance("1", "Page # 2");
-
+            case 2: // Fragment # 0 - This will show FirstFragment different title
+                return SelectSkillFragment.newInstance("1", "Page # 2");
             default:
                 return null;
         }

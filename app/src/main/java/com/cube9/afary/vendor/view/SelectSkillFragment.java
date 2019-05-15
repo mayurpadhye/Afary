@@ -4,12 +4,21 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cube9.afary.MainActivity;
 import com.cube9.afary.R;
+import com.cube9.afary.helperClass.CustomUtils;
+import com.cube9.afary.vendor.model.SkillServicesPojo;
+import com.cube9.afary.vendor.presenter.SkillListAdapter;
+import com.cube9.afary.vendor.presenter.VendorSignUpPresenter;
+import com.valdesekamdem.library.mdtoast.MDToast;
+
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,8 +33,11 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
     View v;
     @BindView(R.id.rv_select_skills)
     RecyclerView rv_select_skills;
+
+
+    VendorSignUpPresenter vendorSignUpPresenter;
    public SelectSkillFragment() {
-        // Required empty public constructor
+
     }
 
 
@@ -53,6 +65,11 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
 
         v= inflater.inflate(R.layout.fragment_select_skill, container, false);
         ButterKnife.bind(this,v);
+
+        LinearLayoutManager verticalLayoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
+        rv_select_skills.setLayoutManager(verticalLayoutManager);
+        vendorSignUpPresenter=new VendorSignUpPresenter(getActivity(),this,new SkillServicesPojo());
+        vendorSignUpPresenter.requestSjillServices();
        return v;
    }
 
@@ -93,8 +110,15 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
     }
 
     @Override
-    public void getSubcategory() {
+    public void getSubcategory(List<SkillServicesPojo> skillServicesPojoList) {
+        SkillListAdapter adapter=new SkillListAdapter(skillServicesPojoList,getActivity());
+        rv_select_skills.setAdapter(adapter);
 
+    }
+
+    @Override
+    public void responseFailureSubCategory(Throwable t) {
+        CustomUtils.showToast("Server Error",getActivity(),MDToast.TYPE_ERROR);
     }
 
 

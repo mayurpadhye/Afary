@@ -10,12 +10,14 @@
     android:orientation="horizontal"
     >
     <TextView
+        android:id="@+id/tv_service_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="5dp"
-
+        android:textColor="@color/white"
         android:layout_weight="0.2"/>
     <Switch
+        android:id="@+id/sw_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.8"

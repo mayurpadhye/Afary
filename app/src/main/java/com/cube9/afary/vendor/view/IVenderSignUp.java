@@ -1,5 +1,7 @@
 package com.cube9.afary.vendor.view;
 
+import com.cube9.afary.vendor.model.SkillServicesPojo;
+
 import java.util.List;
 
 public interface IVenderSignUp {
@@ -14,7 +16,9 @@ public interface IVenderSignUp {
     interface ISelectSkill{
         public void showProgressDailog();
         public void hideProgressDailog();
-        public void getSubcategory();
+        public void getSubcategory(List<SkillServicesPojo> skillServicesPojoList);
+        public void responseFailureSubCategory(Throwable t);
+
     }
 
 
