@@ -1,57 +1,41 @@
 package com.cube9.afary.vendor.view;
 
-import android.Manifest;
-import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
-import android.media.ExifInterface;
 import android.net.Uri;
-import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.cube9.afary.BuildConfig;
 import com.cube9.afary.R;
-import com.cube9.afary.helperClass.CustomFileUtils;
-import com.cube9.afary.helperClass.CustomPermissions;
 import com.cube9.afary.helperClass.CustomUtils;
-import com.cube9.afary.helperClass.RunTimePermission;
-import com.iceteck.silicompressorr.SiliCompressor;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -60,41 +44,38 @@ import butterknife.OnClick;
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
+import static com.cube9.afary.vendor.view.TakePhotoFragment.RequestPermissionCode;
 
-
-public class TakePhotoFragment extends BackStackFragment {
+public class SelectDocumentFragment extends Fragment {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    ProgressDialog progressDialog;
-    private OnFragmentInteractionListener mListener;
-    View v;
-    @BindView(R.id.btn_camera)
-    Button btn_camera;
-    @BindView(R.id.btn_gallary)
-    Button btn_gallary;
-    @BindView(R.id.iv_preview)
-    ImageView iv_preview;
-
-    @BindView(R.id.btn_next)
-            Button btn_next;
-
-    String convertedImage;
+    String convertedImage="";
     Bitmap myBitmap;
     Uri picUri;
-    private Fragment fragment;
     File f;
-    public static final int RequestPermissionCode = 1;
-    private RunTimePermission runTimePermission;
-    public TakePhotoFragment() {
+    View v;
+    @BindView(R.id.rg_doc_type)
+    RadioGroup rg_doc_type;
+
+    @BindView(R.id.btn_next)
+    Button btn_next;
+
+    @BindView(R.id.btn_upload)
+    Button btn_upload;
+
+    @BindView(R.id.iv_documemt)
+    ImageView iv_documemt;
+    private OnFragmentInteractionListener mListener;
+    public SelectDocumentFragment() {
         // Required empty public constructor
     }
 
 
-    public static TakePhotoFragment newInstance(String param1, String param2) {
-        TakePhotoFragment fragment = new TakePhotoFragment();
+    public static SelectDocumentFragment newInstance(String param1, String param2) {
+        SelectDocumentFragment fragment = new SelectDocumentFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -112,127 +93,73 @@ public class TakePhotoFragment extends BackStackFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        v= inflater.inflate(R.layout.fragment_take_photo, container, false);
+
+        v= inflater.inflate(R.layout.fragment_select_document, container, false);
         ButterKnife.bind(this,v);
-        if (fragment != null) {
-            replaceFragment(fragment, false);
-        }
-         return v;
+        rg_doc_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
+        {
+            public void onCheckedChanged(RadioGroup group, int checkedId)
+            {
 
-    }
-    public void replaceFragment(Fragment fragment, boolean addToBackstack) {
-        if (addToBackstack) {
-            getChildFragmentManager().beginTransaction().replace(R.id.ll_home_services, fragment).addToBackStack(null).commit();
-        } else {
-            getChildFragmentManager().beginTransaction().replace(R.id.ll_home_services, fragment).commit();
-        }
-    }
+                RadioButton checkedRadioButton = (RadioButton)group.findViewById(checkedId);
 
-    public static TakePhotoFragment newInstance(Fragment fragment) {
-        TakePhotoFragment hostFragment = new TakePhotoFragment();
-        hostFragment.fragment = fragment;
-        return hostFragment;
-    }
-//
-    @OnClick(R.id.btn_camera)
-    public void oncameraClick()
-    {
-        if(checkPermission()){
-            Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-            File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",f));
-            startActivityForResult(intent, 1);
-        }
+                boolean isChecked = checkedRadioButton.isChecked();
 
-        else {
-            requestPermission();
-        }
-
-
-
-    }
-
-    @OnClick(R.id.btn_gallary)
-    public void onGallaryClick()
-    {
-        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                        startActivityForResult(intent, 2);
+                if (isChecked)
+                {
+                    Toast.makeText(getActivity(), ""+ checkedRadioButton.getText(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return v;
     }
 
     @OnClick(R.id.btn_next)
     public void onNextClick()
     {
+        if (convertedImage.isEmpty())
+        {
+            CustomUtils.showToast(getResources().getString(R.string.please_select_doc_type),getActivity(),MDToast.TYPE_ERROR);
+        }
+        else
         ((VendorDetailsActivity)getActivity()).handleNextClick();
     }
-
-    private void requestPermission() {
-        ActivityCompat.requestPermissions(getActivity(), new
-                String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, RequestPermissionCode);
-//                String[]{READ_PHONE_STATE}, RequestPermissionCode);
-    }
-
-    public boolean checkPermission() {
-        int result = ContextCompat.checkSelfPermission(getActivity(),
-                WRITE_EXTERNAL_STORAGE);
-        int result1 = ContextCompat.checkSelfPermission(getActivity(),
-                CAMERA);
-        return result == PackageManager.PERMISSION_GRANTED &&
-                result1 == PackageManager.PERMISSION_GRANTED;
-//        return result == PackageManager.PERMISSION_GRANTED;
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int RC, @NonNull String per[], @NonNull int[] PResult) {
-        switch (RC) {
-            case RequestPermissionCode:
-                if (PResult.length > 0 && PResult[0] == PackageManager.PERMISSION_GRANTED) {
-//                    Toast.makeText(DetailPage.this,"Permission Granted, Now your application can access CAMERA.", Toast.LENGTH_LONG).show();
-                    Log.e("Permission Granted", "Permission Granted, Now your application can access CAMERA.");
-                } else {
-                    Toast.makeText(getActivity(), "Permission Canceled, Now your application cannot access CAMERA.", Toast.LENGTH_LONG).show();
-                }
-                break;
-        }
-    }
-
-    public String convertImgPathToBase64(String filePath){
-        Bitmap bmp = null;
-        ByteArrayOutputStream bos = null;
-        byte[] bt = null;
-        String encodeString = null;
-        try{
-            bmp = BitmapFactory.decodeFile(filePath);
-            bos = new ByteArrayOutputStream();
-            bmp.compress(Bitmap.CompressFormat.JPEG, 50, bos);
-            bt = bos.toByteArray();
-            encodeString = Base64.encodeToString(bt, Base64.DEFAULT);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return encodeString;
-    }
-
-    private String convertBitmapToBase64(Bitmap bm)
+    @OnClick(R.id.btn_upload)
+    public void onUploadClick()
     {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bm.compress(Bitmap.CompressFormat.JPEG,50,baos);
-        byte[] b = baos.toByteArray();
-        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
-        return encImage;
+        if(checkPermission()){
+            final CharSequence[] options = { getResources().getString(R.string.take_photo), getResources().getString(R.string.choose_from_gallery),getResources().getString(R.string.cancel) };
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setTitle(getResources().getString(R.string.upload_document));
+            builder.setItems(options, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int item) {
+                    if (options[item].equals(getResources().getString(R.string.take_photo)))
+                    {
+                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                        File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
+                        intent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getActivity(), BuildConfig.APPLICATION_ID + ".provider",f));
+                        startActivityForResult(intent, 1);
+                    }
+                    else if (options[item].equals(getResources().getString(R.string.choose_from_gallery)))
+                    {
+                        Intent intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        startActivityForResult(intent, 2);
+                    }
+                    else if (options[item].equals("Cancel")) {
+                        dialog.dismiss();
+                    }
+                }
+            });
+            builder.show();
+        }
+        else {
+            requestPermission();
+        }
     }
-
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -251,8 +178,7 @@ public class TakePhotoFragment extends BackStackFragment {
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
                     bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), bitmapOptions);
-                    iv_preview.setVisibility(View.VISIBLE);
-                    iv_preview.setImageBitmap(bitmap);
+                    iv_documemt.setImageBitmap(bitmap);
 
                     convertedImage = convertBitmapToBase64(bitmap);
 
@@ -293,12 +219,50 @@ public class TakePhotoFragment extends BackStackFragment {
                 SharedPreferences.Editor editor = sharedPreferences.edit();
                 editor.putString("convertedImage", convertedImage);
                 editor.apply();
-                iv_preview.setVisibility(View.VISIBLE);
-                iv_preview.setImageBitmap(thumbnail);
+                iv_documemt.setImageBitmap(thumbnail);
             }
         }
     }
+    private String convertBitmapToBase64(Bitmap bm)
+    {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bm.compress(Bitmap.CompressFormat.JPEG,50,baos);
+        byte[] b = baos.toByteArray();
+        String encImage = Base64.encodeToString(b, Base64.DEFAULT);
 
+        return encImage;
+    }
+    public String convertImgPathToBase64(String filePath){
+        Bitmap bmp = null;
+        ByteArrayOutputStream bos = null;
+        byte[] bt = null;
+        String encodeString = null;
+        try{
+            bmp = BitmapFactory.decodeFile(filePath);
+            bos = new ByteArrayOutputStream();
+            bmp.compress(Bitmap.CompressFormat.JPEG, 50, bos);
+            bt = bos.toByteArray();
+            encodeString = Base64.encodeToString(bt, Base64.DEFAULT);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return encodeString;
+    }
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(getActivity(), new
+                String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, RequestPermissionCode);
+//                String[]{READ_PHONE_STATE}, RequestPermissionCode);
+    }
+
+    public boolean checkPermission() {
+        int result = ContextCompat.checkSelfPermission(getActivity(),
+                WRITE_EXTERNAL_STORAGE);
+        int result1 = ContextCompat.checkSelfPermission(getActivity(),
+                CAMERA);
+        return result == PackageManager.PERMISSION_GRANTED &&
+                result1 == PackageManager.PERMISSION_GRANTED;
+//        return result == PackageManager.PERMISSION_GRANTED;
+    }
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -325,7 +289,7 @@ public class TakePhotoFragment extends BackStackFragment {
 
 
     public interface OnFragmentInteractionListener {
-
+        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

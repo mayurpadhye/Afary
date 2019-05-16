@@ -45,6 +45,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths" />
         </provider>
+
         <activity
             android:name=".splash.SplashActivity"
             android:screenOrientation="portrait">
@@ -84,7 +85,8 @@
         <activity android:name=".user.home_services.ElectricianRequestActivity" />
         <activity android:name=".vendor.view.VendorSignUpActivity" />
         <activity android:name=".vendor.view.CompleteVenderSignUpActivity" />
-        <activity android:name=".vendor.view.CaptureCameraActivity"></activity>
+        <activity android:name=".vendor.view.CaptureCameraActivity" />
+        <activity android:name=".vendor.view.VendorDetailsActivity"></activity>
     </application>
 
 </manifest>

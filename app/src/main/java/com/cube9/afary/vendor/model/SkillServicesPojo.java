@@ -24,17 +24,35 @@ import retrofit.client.Response;
 
 public class SkillServicesPojo implements IVendorSignUpModel.getSkillServicesInterface {
     String service_name,service_id,service_image,serives_availability,description;
+    boolean isSeleted;
 List<SkillServicesPojo> homeServicesPojoList=new ArrayList<>();
     public SkillServicesPojo() {
 
     }
 
-    public SkillServicesPojo(String service_name, String service_id, String service_image, String serives_availability, String description) {
+    public SkillServicesPojo(String service_name, String service_id, String service_image, String serives_availability, String description, boolean isSeleted) {
         this.service_name = service_name;
         this.service_id = service_id;
         this.service_image = service_image;
         this.serives_availability = serives_availability;
         this.description = description;
+        this.isSeleted=isSeleted;
+    }
+
+    public boolean isSeleted() {
+        return isSeleted;
+    }
+
+    public void setSeleted(boolean seleted) {
+        isSeleted = seleted;
+    }
+
+    public List<SkillServicesPojo> getHomeServicesPojoList() {
+        return homeServicesPojoList;
+    }
+
+    public void setHomeServicesPojoList(List<SkillServicesPojo> homeServicesPojoList) {
+        this.homeServicesPojoList = homeServicesPojoList;
     }
 
     public String getService_name() {
@@ -107,7 +125,7 @@ List<SkillServicesPojo> homeServicesPojoList=new ArrayList<>();
                             String status1=j1.getString("status");
                             // String image_url=j1.getString("image_url");
                             String created_date=j1.getString("created_date");
-                            homeServicesPojoList.add(new SkillServicesPojo(service_name,service_id,"",service_description,service_description));
+                            homeServicesPojoList.add(new SkillServicesPojo(service_name,service_id,"",service_description,service_description,false));
                         }
                        getSkills.onFinished(homeServicesPojoList);
 

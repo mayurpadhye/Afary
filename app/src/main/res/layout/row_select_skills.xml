@@ -20,9 +20,9 @@
         android:id="@+id/sw_service"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.8"
+        android:layout_weight="0.9"
         android:layout_marginRight="5dp"
-        android:checked="true"
+        android:checked="false"
         android:theme="@style/SCBSwitch"
         android:background="@drawable/rounded_btn_white"
         />

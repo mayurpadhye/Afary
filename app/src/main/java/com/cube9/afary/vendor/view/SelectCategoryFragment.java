@@ -74,26 +74,12 @@ View v;
 
         v= inflater.inflate(R.layout.fragment_select_category, container, false);
         ButterKnife.bind(this,v);
-        v.setFocusableInTouchMode(true);
-        v.requestFocus();
-        v.setOnKeyListener( new View.OnKeyListener()
-        {
-            @Override
-            public boolean onKey( View v, int keyCode, KeyEvent event )
-            {
-                if( keyCode == KeyEvent.KEYCODE_BACK )
-                {
-                    ((CompleteVenderSignUpActivity)getActivity()).previousClick();
-                    return true;
-                }
-                return false;
-            }
-        } );
+
         return v;
     }
     @OnClick(R.id.ll_home_services)
     public void onHomeServiceClick(View view) {
-        ((CompleteVenderSignUpActivity)getActivity()).handleNextClick();
+        ((VendorDetailsActivity)getActivity()).handleNextClick();
 
 
 
@@ -102,7 +88,7 @@ View v;
     @OnClick(R.id.iv_previous)
     public void onPreviousClick()
     {
-        ((CompleteVenderSignUpActivity)getActivity()).previousClick();
+        ((VendorDetailsActivity)getActivity()).previousClick();
     }
 
 

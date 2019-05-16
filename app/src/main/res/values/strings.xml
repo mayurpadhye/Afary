@@ -407,4 +407,8 @@
     <string name="load_from_gallary">Load From Gallary</string>
     <string name="please_wait">Please Wait</string>
     <string name="take_photo">Take Photo</string>
+    <string name="select_your_skills">Select your skills</string>
+    <string name="upload_document">Upload Document</string>
+    <string name="choose_from_gallery">Choose From Gallery</string>
+    <string name="please_select_doc_type">Please Select Document Type and Document Image</string>
 </resources>
