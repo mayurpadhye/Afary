@@ -29,6 +29,7 @@ public class RetrofitClient {
                 .setRequestInterceptor(requestInterceptor)
                 .setClient(new OkClient(new OkHttpClient()))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
+
                 .build();
         return adapter.create(RestInterface.class);
     }

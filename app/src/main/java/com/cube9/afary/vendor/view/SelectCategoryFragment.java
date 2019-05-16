@@ -38,7 +38,7 @@ public class SelectCategoryFragment extends Fragment {
     LinearLayout ll_pay_taxi;
     @BindView(R.id.ll_delivery)
     LinearLayout ll_delivery;
-
+    public static String MainServiceId="";
     private String mParam1;
     private String mParam2;
 @BindView(R.id.iv_previous)
@@ -79,6 +79,7 @@ View v;
     }
     @OnClick(R.id.ll_home_services)
     public void onHomeServiceClick(View view) {
+        MainServiceId="2";
         ((VendorDetailsActivity)getActivity()).handleNextClick();
 
 

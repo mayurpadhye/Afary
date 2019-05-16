@@ -19,6 +19,7 @@ public class  WebServiceURLs {
     public static final String SUBMIT_HOUSE_REQUEST="/submit_request_real_estate_agent";
     public static final String ELECTRICIAN_REQUEST="/submit_request_electrician";
     public static final String PLUMBER_REQUEST="/submit_request_plumber";
+    public static final String VENDOR_DETAILS="/add_vendor_profile_data";
 
 
 

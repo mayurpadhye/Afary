@@ -55,7 +55,7 @@ public class SelectDocumentFragment extends Fragment {
     String convertedImage="";
     Bitmap myBitmap;
     Uri picUri;
-    File f;
+    public static File file_doc;
     View v;
     @BindView(R.id.rg_doc_type)
     RadioGroup rg_doc_type;
@@ -68,6 +68,7 @@ public class SelectDocumentFragment extends Fragment {
 
     @BindView(R.id.iv_documemt)
     ImageView iv_documemt;
+    public static String doc_type="";
     private OnFragmentInteractionListener mListener;
     public SelectDocumentFragment() {
         // Required empty public constructor
@@ -109,7 +110,8 @@ public class SelectDocumentFragment extends Fragment {
 
                 if (isChecked)
                 {
-                    Toast.makeText(getActivity(), ""+ checkedRadioButton.getText(), Toast.LENGTH_SHORT).show();
+                    doc_type=""+checkedRadioButton.getText();
+                //    Toast.makeText(getActivity(), ""+ checkedRadioButton.getText(), Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -119,10 +121,16 @@ public class SelectDocumentFragment extends Fragment {
     @OnClick(R.id.btn_next)
     public void onNextClick()
     {
-        if (convertedImage.isEmpty())
+        if (doc_type.isEmpty())
         {
             CustomUtils.showToast(getResources().getString(R.string.please_select_doc_type),getActivity(),MDToast.TYPE_ERROR);
         }
+        else if (convertedImage.isEmpty())
+        {
+
+            CustomUtils.showToast(getResources().getString(R.string.please_select_doc_type),getActivity(),MDToast.TYPE_ERROR);
+        }
+
         else
         ((VendorDetailsActivity)getActivity()).handleNextClick();
     }
@@ -165,10 +173,10 @@ public class SelectDocumentFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
+                file_doc = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : file_doc.listFiles()) {
                     if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
+                        file_doc = temp;
 
                         break;
                     }
@@ -177,7 +185,7 @@ public class SelectDocumentFragment extends Fragment {
                     Bitmap bitmap;
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), bitmapOptions);
+                    bitmap = BitmapFactory.decodeFile(file_doc.getAbsolutePath(), bitmapOptions);
                     iv_documemt.setImageBitmap(bitmap);
 
                     convertedImage = convertBitmapToBase64(bitmap);
@@ -188,7 +196,7 @@ public class SelectDocumentFragment extends Fragment {
                     editor.apply();
 
                     String path = android.os.Environment.getExternalStorageDirectory() + File.separator + "Phoenix" + File.separator + "default";
-                    f.delete();
+                    file_doc.delete();
                     OutputStream outFile = null;
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
@@ -211,7 +219,7 @@ public class SelectDocumentFragment extends Fragment {
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
-                f=new File(picturePath);
+                file_doc=new File(picturePath);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 convertedImage = convertImgPathToBase64(picturePath);

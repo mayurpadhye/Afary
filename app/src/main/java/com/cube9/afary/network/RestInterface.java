@@ -108,4 +108,7 @@ public interface RestInterface {
             @Field("service_id")String service_id,
                             Callback<JsonElement> callback);
 
+    @POST(WebServiceURLs.VENDOR_DETAILS)
+    void submit_vendor_details(@Body MultipartTypedOutput attachments, Callback<JsonElement> callback);
+
 }

@@ -81,11 +81,11 @@ public class TakePhotoFragment extends BackStackFragment {
     @BindView(R.id.btn_next)
             Button btn_next;
 
-    String convertedImage;
+    String convertedImage="";
     Bitmap myBitmap;
     Uri picUri;
     private Fragment fragment;
-    File f;
+   public static File file_profile;
     public static final int RequestPermissionCode = 1;
     private RunTimePermission runTimePermission;
     public TakePhotoFragment() {
@@ -171,7 +171,14 @@ public class TakePhotoFragment extends BackStackFragment {
     @OnClick(R.id.btn_next)
     public void onNextClick()
     {
-        ((VendorDetailsActivity)getActivity()).handleNextClick();
+        if (!convertedImage.isEmpty())
+        {
+            ((VendorDetailsActivity)getActivity()).handleNextClick();
+        }
+        else
+            CustomUtils.showToast("Please Upload your photo",getActivity(),MDToast.TYPE_ERROR);
+
+
     }
 
     private void requestPermission() {
@@ -238,10 +245,10 @@ public class TakePhotoFragment extends BackStackFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                f = new File(Environment.getExternalStorageDirectory().toString());
-                for (File temp : f.listFiles()) {
+                file_profile = new File(Environment.getExternalStorageDirectory().toString());
+                for (File temp : file_profile.listFiles()) {
                     if (temp.getName().equals("temp.jpg")) {
-                        f = temp;
+                        file_profile = temp;
 
                         break;
                     }
@@ -250,7 +257,7 @@ public class TakePhotoFragment extends BackStackFragment {
                     Bitmap bitmap;
                     BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
 
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(), bitmapOptions);
+                    bitmap = BitmapFactory.decodeFile(file_profile.getAbsolutePath(), bitmapOptions);
                     iv_preview.setVisibility(View.VISIBLE);
                     iv_preview.setImageBitmap(bitmap);
 
@@ -262,7 +269,7 @@ public class TakePhotoFragment extends BackStackFragment {
                     editor.apply();
 
                     String path = android.os.Environment.getExternalStorageDirectory() + File.separator + "Phoenix" + File.separator + "default";
-                    f.delete();
+                    file_profile.delete();
                     OutputStream outFile = null;
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
                     try {
@@ -285,7 +292,7 @@ public class TakePhotoFragment extends BackStackFragment {
                 c.moveToFirst();
                 int columnIndex = c.getColumnIndex(filePath[0]);
                 String picturePath = c.getString(columnIndex);
-                f=new File(picturePath);
+                file_profile=new File(picturePath);
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 convertedImage = convertImgPathToBase64(picturePath);
