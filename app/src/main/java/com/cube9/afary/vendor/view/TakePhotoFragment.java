@@ -47,11 +47,17 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -68,6 +74,7 @@ public class TakePhotoFragment extends BackStackFragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    String imageFilePath="";
     ProgressDialog progressDialog;
     private OnFragmentInteractionListener mListener;
     View v;
@@ -80,7 +87,7 @@ public class TakePhotoFragment extends BackStackFragment {
 
     @BindView(R.id.btn_next)
             Button btn_next;
-
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
     String convertedImage="";
     Bitmap myBitmap;
     Uri picUri;
@@ -180,7 +187,22 @@ public class TakePhotoFragment extends BackStackFragment {
 
 
     }
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
 
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
     private void requestPermission() {
         ActivityCompat.requestPermissions(getActivity(), new
                 String[]{WRITE_EXTERNAL_STORAGE, CAMERA}, RequestPermissionCode);
@@ -268,10 +290,41 @@ public class TakePhotoFragment extends BackStackFragment {
                     editor.putString("convertedImage", convertedImage);
                     editor.apply();
 
+
                     String path = android.os.Environment.getExternalStorageDirectory() + File.separator + "Phoenix" + File.separator + "default";
                     file_profile.delete();
+
                     OutputStream outFile = null;
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+
+
+
+
+                    File root = android.os.Environment.getExternalStorageDirectory();
+                    File dir = new File(root.getAbsolutePath() + "/path");
+                    dir.mkdirs();
+                    File file1 = new File(dir, String.valueOf(System.currentTimeMillis())+".jpg");
+                    file_profile=createImageFile();
+                    Reader pr;
+                    String line = "";
+                    try {
+                        pr = new FileReader(file1);
+                        int data1 = pr.read();
+                        while (data1 != -1) {
+                            line += (char) data1;
+                            data1 = pr.read();
+                        }
+                        pr.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);

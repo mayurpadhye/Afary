@@ -12,6 +12,7 @@ import com.cube9.afary.helperClass.CustomUtils;
 import com.cube9.afary.login.LoginActivity;
 import com.cube9.afary.network.RestInterface;
 import com.cube9.afary.network.RetrofitClient;
+import com.cube9.afary.network.RetrofitClient2;
 import com.cube9.afary.network.WebServiceURLs;
 import com.cube9.afary.user.signup.CompleteRegistrationActivity;
 import com.google.gson.JsonElement;
@@ -32,7 +33,7 @@ import retrofit.mime.TypedString;
 public class VendorDetailsModel implements IVendorDetailsModel {
     int  result=0;
     @Override
-    public int completeVendorSignUp(String cat_id, String vendor_id, String service_id, File profile_image,File document_image) {
+    public int completeVendorSignUp(final getVendorDetailsInterface getVendorDetailsInterface, String cat_id, String vendor_id, String service_id, File profile_image, File document_image) {
 
         MultipartTypedOutput multipartTypedOutput = new MultipartTypedOutput();
         multipartTypedOutput.addPart("cat_id", new TypedString(cat_id));
@@ -49,27 +50,27 @@ public class VendorDetailsModel implements IVendorDetailsModel {
 
 
 
-        RetrofitClient retrofitClient = new RetrofitClient();
+        RetrofitClient2 retrofitClient = new RetrofitClient2();
         final RestInterface service = retrofitClient.getAPIClient(WebServiceURLs.DOMAIN_NAME);
 
-        service.submit_vendor_details(multipartTypedOutput, new Callback<JsonElement>() {
+        service.submit_vendor_details(multipartTypedOutput, new Callback<String>() {
             @Override
-            public void success(JsonElement jsonElement, Response response) {
+            public void success(String jsonElement, Response response) {
 
                 try {
-                    JSONObject jsonObject=new JSONObject(jsonElement.toString());
+                    JSONObject jsonObject=new JSONObject(jsonElement);
                     String status=jsonObject.getString("status");
-                    String message=jsonObject.getString("message");
+                    String messge=jsonObject.getString("messge");
                     if (status.equals("1"))
                     {
-                        result=1;
+                        getVendorDetailsInterface.onResultFinished(1);
                     }
                     else
                     {
-                          result=0;
+                        getVendorDetailsInterface.onResultFinished(0);
                     }
                 } catch (Exception je) {
-                    result=0;
+                    getVendorDetailsInterface.onResultFinished(0);
                     je.printStackTrace();
                     Log.i("ressss_fail",""+je.toString());
                 }
@@ -78,10 +79,10 @@ public class VendorDetailsModel implements IVendorDetailsModel {
             @Override
             public void failure(RetrofitError error) { result=0;
                 error.printStackTrace();
-
+                getVendorDetailsInterface.onResultFinished(0);
 
             }
         });
-           return result;
+return result;
     }
 }

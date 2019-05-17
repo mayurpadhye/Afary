@@ -20,6 +20,8 @@ public class  WebServiceURLs {
     public static final String ELECTRICIAN_REQUEST="/submit_request_electrician";
     public static final String PLUMBER_REQUEST="/submit_request_plumber";
     public static final String VENDOR_DETAILS="/add_vendor_profile_data";
+    public static final String REGISTER_VENDOR="/register_vendor";
+    public static final String GET_VENDOR_SERVICES="/get_vendor_service_list";
 
 
 

@@ -10,6 +10,7 @@ import android.os.Build;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
@@ -28,6 +29,7 @@ import com.avontell.pagerindicatorbinder.ImageAdapter;
 import com.avontell.pagerindicatorbinder.IndicatorBinder;
 import com.cube9.afary.R;
 import com.cube9.afary.helperClass.CustomUtils;
+import com.cube9.afary.helperClass.PrefManager;
 import com.cube9.afary.login.LoginActivity;
 import com.cube9.afary.network.RestInterface;
 import com.cube9.afary.network.RetrofitClient;
@@ -51,7 +53,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-public class CompleteVenderSignUpActivity extends AppCompatActivity{
+public class CompleteVenderSignUpActivity extends AppCompatActivity {
 
     @BindView(R.id.ll_city)
     LinearLayout ll_city;
@@ -86,6 +88,7 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity{
     List<String> list_city_name = new ArrayList<>();
     List<String> list_city_id = new ArrayList<>();
     String state_code = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -249,6 +252,7 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity{
                 @Override
                 public void failure(RetrofitError error) {
                     waiting_dialog.dismiss();
+                    Log.i("vendor_sign_up", "" + error.toString());
                     // Toast.makeText(UserSignUpActivity.this ,getResources().getString(R.string.check_internet), Toast.LENGTH_LONG ).show();
                     CustomUtils.showToast(getResources().getString(R.string.check_internet), CompleteVenderSignUpActivity.this, MDToast.TYPE_WARNING);
                 }
@@ -291,7 +295,7 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity{
             waiting_dialog.show();
             RetrofitClient retrofitClient = new RetrofitClient();
             RestInterface service = retrofitClient.getAPIClient(WebServiceURLs.DOMAIN_NAME);
-            service.register_user(f_name,last_name,mobile,email,country_name,sp_state.getSelectedItem().toString(),sp_city.getSelectedItem().toString(),"1345",et_date.getText().toString(),sp_security_questions.getSelectedItem().toString(),et_security_ans.getText().toString(),password, new Callback<JsonElement>() {
+            service.register_vendor(f_name, last_name, mobile, email, password, "", country_name, sp_state.getSelectedItem().toString(), sp_city.getSelectedItem().toString(), "", "", "", new Callback<JsonElement>() {
                 @Override
                 public void success(JsonElement jsonElement, Response response) {
 
@@ -301,16 +305,16 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity{
 
                         String status = jsonObject.getString("status");
                         if (status.equals("1")) {
-                            String messge=jsonObject.getString("messge");
+                            String messge = jsonObject.getString("messge");
+                            String user_id = jsonObject.getString("vendor_id");
 
-                            CustomUtils.showToast(messge+" "+getResources().getString(R.string.login_to_continue),CompleteVenderSignUpActivity.this,MDToast.TYPE_SUCCESS);
-                            startActivity(new Intent(CompleteVenderSignUpActivity.this,VendorDetailsActivity.class));
+                            PrefManager.getInstance(CompleteVenderSignUpActivity.this).setUserId(user_id);
+                            CustomUtils.showToast(messge + "Registration Successful Please fill All Above Details", CompleteVenderSignUpActivity.this, MDToast.TYPE_SUCCESS);
+                            startActivity(new Intent(CompleteVenderSignUpActivity.this, VendorDetailsActivity.class));
                             finish();
 
-                        }
-                        else
-                        {
-                            CustomUtils.showToast(""+getResources().getString(R.string.unable_to_register),CompleteVenderSignUpActivity.this,MDToast.TYPE_SUCCESS);
+                        } else {
+                            CustomUtils.showToast("" + getResources().getString(R.string.unable_to_register), CompleteVenderSignUpActivity.this, MDToast.TYPE_SUCCESS);
 
                         }
 
@@ -393,10 +397,9 @@ public class CompleteVenderSignUpActivity extends AppCompatActivity{
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //startActivity(new Intent(CompleteVenderSignUpActivity.this,HomeActivity.class));
-                //validation();
-                startActivity(new Intent(CompleteVenderSignUpActivity.this,VendorDetailsActivity.class));
-                finish();
+                validation();
+                /*startActivity(new Intent(CompleteVenderSignUpActivity.this,VendorDetailsActivity.class));
+                finish();*/
 
             }
         });

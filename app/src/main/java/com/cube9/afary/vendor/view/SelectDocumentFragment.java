@@ -34,8 +34,15 @@ import com.valdesekamdem.library.mdtoast.MDToast;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.OutputStream;
+import java.io.Reader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -65,11 +72,12 @@ public class SelectDocumentFragment extends Fragment {
 
     @BindView(R.id.btn_upload)
     Button btn_upload;
-
+String imageFilePath="";
     @BindView(R.id.iv_documemt)
     ImageView iv_documemt;
     public static String doc_type="";
     private OnFragmentInteractionListener mListener;
+    private static final int REQUEST_CAPTURE_IMAGE = 100;
     public SelectDocumentFragment() {
         // Required empty public constructor
     }
@@ -197,8 +205,38 @@ public class SelectDocumentFragment extends Fragment {
 
                     String path = android.os.Environment.getExternalStorageDirectory() + File.separator + "Phoenix" + File.separator + "default";
                     file_doc.delete();
+
                     OutputStream outFile = null;
                     File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
+
+
+                    File root = android.os.Environment.getExternalStorageDirectory();
+                    File dir = new File(root.getAbsolutePath() + "/path");
+                    dir.mkdirs();
+                    File file1 = new File(dir, ".storage.jpg");
+                    file_doc=createImageFile();
+                    Reader pr;
+                    String line = "";
+                    try {
+                        pr = new FileReader(file1);
+                        int data1 = pr.read();
+                        while (data1 != -1) {
+                            line += (char) data1;
+                            data1 = pr.read();
+                        }
+                        pr.close();
+                    } catch (FileNotFoundException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+
+
+
+
+
+
                     try {
                         outFile = new FileOutputStream(file);
                         bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
@@ -231,6 +269,26 @@ public class SelectDocumentFragment extends Fragment {
             }
         }
     }
+
+
+    private File createImageFile() throws IOException {
+        String timeStamp =
+                new SimpleDateFormat("yyyyMMdd_HHmmss",
+                        Locale.getDefault()).format(new Date());
+        String imageFileName = "IMG_" + timeStamp + "_";
+        File storageDir =
+                getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        imageFilePath = image.getAbsolutePath();
+        return image;
+    }
+
+
     private String convertBitmapToBase64(Bitmap bm)
     {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();

@@ -22,6 +22,7 @@ public class PrefManager {
     public static final String PROFILE_PIC = "profile_pic";
     public static final String BANNER = "banner";
     public static final String LOCATION_USER = "location";
+    public static final String LOGIN_AS = "login_type";
 
     private PrefManager()
     {
@@ -153,7 +154,15 @@ public class PrefManager {
         prefsEditor.commit();
     }
 
+    public static String getLoginAS() {
+        return mSharedPref.getString(LOGIN_AS, "");
+    }
 
+    public static void setLoginAs( String value) {
+        SharedPreferences.Editor prefsEditor = mSharedPref.edit();
+        prefsEditor.putString(LOGIN_AS, value);
+        prefsEditor.commit();
+    }
 
     public void Logout()
     {

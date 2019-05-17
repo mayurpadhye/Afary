@@ -18,6 +18,7 @@ import com.cube9.afary.MainActivity;
 import com.cube9.afary.R;
 import com.cube9.afary.helperClass.PrefManager;
 import com.cube9.afary.user.home.HomeActivity;
+import com.cube9.afary.vendor.vendor_dashbord.VendorHomeActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,9 +47,17 @@ Context context;
 
                     if (PrefManager.getInstance(SplashActivity.this).IS_LOGIN())
                     {
-                        Intent i = new Intent(SplashActivity.this, HomeActivity.class);
-                        startActivity(i);
-                        finish();
+                        if (PrefManager.getInstance(SplashActivity.this).getLoginAS().equals("VENDOR"))
+                        {
+                            Intent i = new Intent(SplashActivity.this, VendorHomeActivity.class);
+                            startActivity(i);
+                            finish();
+                        }
+                        else
+                        {Intent i = new Intent(SplashActivity.this, HomeActivity.class);
+                            startActivity(i);
+                            finish();}
+
                     }
                     else
                     {

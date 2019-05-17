@@ -109,6 +109,34 @@ public interface RestInterface {
                             Callback<JsonElement> callback);
 
     @POST(WebServiceURLs.VENDOR_DETAILS)
-    void submit_vendor_details(@Body MultipartTypedOutput attachments, Callback<JsonElement> callback);
+    void submit_vendor_details(@Body MultipartTypedOutput attachments, Callback<String> callback);
+
+    @FormUrlEncoded
+    @POST(WebServiceURLs.REGISTER_VENDOR)
+    void register_vendor(
+            @Field("firstname") String firstname,
+            @Field("lastname") String lastname,
+            @Field("contactno") String contactno,
+            @Field("email") String email,
+            @Field("password") String password,
+            @Field("address") String address,
+            @Field("country") String country,
+            @Field("state") String state,
+            @Field("city") String city,
+            @Field("pincode") String pincode,
+            @Field("token_id") String token_id,
+            @Field("middlename") String middlename,
+
+
+            Callback<JsonElement> callback);
+
+    @FormUrlEncoded
+    @POST(WebServiceURLs.GET_VENDOR_SERVICES)
+    void get_vendor_services(
+            @Field("vendor_id") String vendor_id,
+
+
+
+            Callback<JsonElement> callback);
 
 }

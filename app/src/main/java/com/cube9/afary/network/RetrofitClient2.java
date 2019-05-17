@@ -1,6 +1,5 @@
 package com.cube9.afary.network;
 
-
 import com.cube9.afary.helperClass.StringConverter;
 import com.squareup.okhttp.OkHttpClient;
 
@@ -8,11 +7,8 @@ import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
 import retrofit.client.OkClient;
 
-/**
- * RetrofitClient.
- */
+public class RetrofitClient2 {
 
-public class RetrofitClient {
 
     public RestInterface getAPIClient(String url)
     {
@@ -24,14 +20,13 @@ public class RetrofitClient {
             }
         };
 
-
         RestAdapter adapter = new RestAdapter.Builder()
                 .setEndpoint(url)
                 .setRequestInterceptor(requestInterceptor)
                 .setClient(new OkClient(new OkHttpClient()))
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-
-                .build();
+                .setConverter(new StringConverter())
+            .build();
         return adapter.create(RestInterface.class);
     }
 

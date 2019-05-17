@@ -86,7 +86,8 @@
         <activity android:name=".vendor.view.VendorSignUpActivity" />
         <activity android:name=".vendor.view.CompleteVenderSignUpActivity" />
         <activity android:name=".vendor.view.CaptureCameraActivity" />
-        <activity android:name=".vendor.view.VendorDetailsActivity"></activity>
+        <activity android:name=".vendor.view.VendorDetailsActivity" />
+        <activity android:name=".vendor.vendor_dashbord.VendorHomeActivity"></activity>
     </application>
 
 </manifest>

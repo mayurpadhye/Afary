@@ -22,18 +22,21 @@ IVendorDetailsModel iVendorDetailsModel;
     public void submitVendorDetails(String cat_id, String vendor_id, String service_id, File profile_image, File document_image) {
 
         iVenderDetailsView.showProgressBar();
-    int result=    iVendorDetailsModel.completeVendorSignUp(cat_id,vendor_id,service_id,profile_image,document_image);
+    int result= iVendorDetailsModel.completeVendorSignUp(new IVendorDetailsModel.getVendorDetailsInterface() {
+        @Override
+        public void onResultFinished(int status) {
+            iVenderDetailsView.hideProgressBar();
+            iVenderDetailsView.completeVendorRegistration(status);
+        }
 
-       if (result==1)
-       {
-           iVenderDetailsView.hideProgressBar();
-           iVenderDetailsView.completeVendorRegistration(1);
-       }
-       else
-       {
-           iVenderDetailsView.hideProgressBar();
-           iVenderDetailsView.completeVendorRegistration(0);
-       }
+        @Override
+        public void onResultFailure(Throwable t) {
+            iVenderDetailsView.hideProgressBar();
+            iVenderDetailsView.failure(t);
+        }
+    }, cat_id, vendor_id, service_id, profile_image, document_image);
+
+
 
 
     }

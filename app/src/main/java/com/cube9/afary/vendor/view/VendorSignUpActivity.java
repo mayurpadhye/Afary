@@ -112,16 +112,8 @@ String country_id="";
     @Override
     public int validateData(int result,int position) {
         if (result == 0) {
-            Intent i=new Intent(VendorSignUpActivity.this,CompleteVenderSignUpActivity.class);
-            i.putExtra("f_name",et_f_name.getText().toString());
-            i.putExtra("l_name",et_last_name.getText().toString());
-            i.putExtra("mobile_no",et_mobile_no.getText().toString());
-            i.putExtra("email",et_email.getText().toString());
-            i.putExtra("password",et_password.getText().toString());
-            i.putExtra("country",sp_country.getSelectedItem().toString());
-            i.putExtra("country_code",country_id);
-            startActivity(i);
-          /* switch (position)
+
+         switch (position)
            {
                case 1:
                    et_f_name.requestFocus();
@@ -170,7 +162,7 @@ String country_id="";
                    MDToast.makeText(VendorSignUpActivity.this, "Please Select Country", MDToast.LENGTH_SHORT).show();
                    break;
 
-           }*/
+           }
 
 
         }

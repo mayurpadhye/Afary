@@ -1,6 +1,7 @@
 package com.cube9.afary.login;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
@@ -15,6 +16,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 
 import com.cube9.afary.R;
 import com.cube9.afary.helperClass.CustomUtils;
@@ -24,6 +26,8 @@ import com.cube9.afary.network.RetrofitClient;
 import com.cube9.afary.network.WebServiceURLs;
 import com.cube9.afary.user.home.HomeActivity;
 import com.cube9.afary.user.signup.CompleteRegistrationActivity;
+import com.cube9.afary.vendor.vendor_dashbord.VendorHomeActivity;
+import com.cube9.afary.vendor.view.VendorDetailsActivity;
 import com.google.gson.JsonElement;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
@@ -142,34 +146,165 @@ public class LoginActivity extends AppCompatActivity {
 
                     try {
 
-                        JSONObject jsonObject = new JSONObject(jsonElement.toString());
+                        final JSONObject jsonObject = new JSONObject(jsonElement.toString());
 
                         String status = jsonObject.getString("status");
                         if (status.equals("1")) {
                             PrefManager.getInstance(LoginActivity.this).setIsLogin(true);
                             String messge = jsonObject.getString("messge");
-                            JSONObject user_details=jsonObject.getJSONObject("user_details");
-                            String user_id=user_details.getString("user_id");
-                            String first_name=user_details.getString("first_name");
-                            String last_name=user_details.getString("last_name");
-                            String mobile_no=user_details.getString("mobile_no");
-                            String email=user_details.getString("email");
-                            String password=user_details.getString("password");
-                            String country=user_details.getString("country");
-                            String state=user_details.getString("state");
-                            String city=user_details.getString("city");
-                            String pincode=user_details.getString("pincode");
-                            String date_of_birth=user_details.getString("date_of_birth");
-                            String security_question=user_details.getString("security_question");
-                            String answer=user_details.getString("answer");
+                            JSONObject user_details = null;
+                            if (jsonObject.has("user_details") && !jsonObject.has("vendor_details") )
+                            {
+                                 user_details=jsonObject.getJSONObject("user_details");
+                                final String user_id=user_details.getString("user_id");
+                                final String first_name=user_details.getString("first_name");
+                                final String last_name=user_details.getString("last_name");
+                                final String mobile_no=user_details.getString("mobile_no");
+                                final String email=user_details.getString("email");
+                                String password=user_details.getString("password");
+                                String country=user_details.getString("country");
+                                String state=user_details.getString("state");
+                                String city=user_details.getString("city");
+                                String pincode=user_details.getString("pincode");
+                                String date_of_birth=user_details.getString("date_of_birth");
+                                String security_question=user_details.getString("security_question");
+                                String answer=user_details.getString("answer");
+                                PrefManager.getInstance(LoginActivity.this).setUserId(user_id);
+                                PrefManager.getInstance(LoginActivity.this).setFirstName(first_name);
+                                PrefManager.getInstance(LoginActivity.this).setLastName(last_name);
+                                PrefManager.getInstance(LoginActivity.this).setEmail(email);
+                                PrefManager.getInstance(LoginActivity.this).setMobile(mobile_no);
+                                PrefManager.getInstance(LoginActivity.this).setLoginAs("CUSTOMER");
+                                startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                finish();
+                            }
 
-                            PrefManager.getInstance(LoginActivity.this).setUserId(user_id);
-                            PrefManager.getInstance(LoginActivity.this).setFirstName(first_name);
-                            PrefManager.getInstance(LoginActivity.this).setLastName(last_name);
-                            PrefManager.getInstance(LoginActivity.this).setEmail(email);
-                            PrefManager.getInstance(LoginActivity.this).setMobile(mobile_no);
-                            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
-                            finish();
+
+
+                            if (jsonObject.has("vendor_details") && !jsonObject.has("user_details"))
+                            {
+                                JSONObject vendor_details=jsonObject.getJSONObject("vendor_details");
+                                final String user_id=vendor_details.getString("vendor_id");
+                                final String first_name=vendor_details.getString("firstname");
+                                final String last_name=vendor_details.getString("lastname");
+                                final String mobile_no=vendor_details.getString("contactno");
+                                final String email=vendor_details.getString("email");
+                                String password=vendor_details.getString("password");
+                                String country=vendor_details.getString("country");
+                                String state=vendor_details.getString("state");
+                                String city=vendor_details.getString("city");
+                                String pincode=vendor_details.getString("pincode");
+                                String reg_process_flag=vendor_details.getString("reg_process_flag");
+                                PrefManager.getInstance(LoginActivity.this).setUserId(user_id);
+                                PrefManager.getInstance(LoginActivity.this).setFirstName(first_name);
+                                PrefManager.getInstance(LoginActivity.this).setLastName(last_name);
+                                PrefManager.getInstance(LoginActivity.this).setEmail(email);
+                                PrefManager.getInstance(LoginActivity.this).setMobile(mobile_no);
+                                PrefManager.getInstance(LoginActivity.this).setLoginAs("VENDOR");
+                                if (reg_process_flag.equals("1"))
+                                {
+                                    startActivity(new Intent(LoginActivity.this,VendorDetailsActivity.class));
+                                    finish();
+                                }
+                                else
+                                {
+                                    startActivity(new Intent(LoginActivity.this,VendorHomeActivity.class));
+                                    finish();
+                                }
+
+                            }
+
+
+                            if (jsonObject.has("vendor_details") && jsonObject.has("user_details"))
+                            {
+                                final Dialog dialog=new Dialog(LoginActivity.this);
+                                dialog.setContentView(R.layout.dailog_choose_role);
+                                RadioButton rb_cust_login=dialog.findViewById(R.id.rb_cust_login);
+                                RadioButton rb_vendor_login=dialog.findViewById(R.id.rb_vendor_login);
+
+                                final JSONObject finalUser_details = user_details;
+                                rb_cust_login.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+                                        final String user_id;
+                                        try {
+                                            user_id = finalUser_details.getString("user_id");
+                                            final String first_name= finalUser_details.getString("first_name");
+                                            final String last_name= finalUser_details.getString("last_name");
+                                            final String mobile_no= finalUser_details.getString("mobile_no");
+                                            final String email= finalUser_details.getString("email");
+                                            String password= finalUser_details.getString("password");
+                                            String country= finalUser_details.getString("country");
+                                            String state= finalUser_details.getString("state");
+                                            String city= finalUser_details.getString("city");
+                                            String pincode= finalUser_details.getString("pincode");
+                                            String date_of_birth= finalUser_details.getString("date_of_birth");
+                                            String security_question= finalUser_details.getString("security_question");
+                                            String answer= finalUser_details.getString("answer");
+                                            PrefManager.getInstance(LoginActivity.this).setUserId(user_id);
+                                            PrefManager.getInstance(LoginActivity.this).setFirstName(first_name);
+                                            PrefManager.getInstance(LoginActivity.this).setLastName(last_name);
+                                            PrefManager.getInstance(LoginActivity.this).setEmail(email);
+                                            PrefManager.getInstance(LoginActivity.this).setMobile(mobile_no);
+                                            PrefManager.getInstance(LoginActivity.this).setLoginAs("CUSTOMER");
+                                            startActivity(new Intent(LoginActivity.this,HomeActivity.class));
+                                            finish();
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
+
+                                rb_vendor_login.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View v) {
+
+                                        try {
+                                            JSONObject vendor_details=jsonObject.getJSONObject("vendor_details");
+                                            final String user_id=vendor_details.getString("vendor_id");
+                                            final String first_name=vendor_details.getString("firstname");
+                                            final String last_name=vendor_details.getString("lastname");
+                                            final String mobile_no=vendor_details.getString("contactno");
+                                            final String email=vendor_details.getString("email");
+                                            String password=vendor_details.getString("password");
+                                            String country=vendor_details.getString("country");
+                                            String state=vendor_details.getString("state");
+                                            String city=vendor_details.getString("city");
+                                            String pincode=vendor_details.getString("pincode");
+                                            String reg_process_flag=vendor_details.getString("reg_process_flag");
+                                            PrefManager.getInstance(LoginActivity.this).setUserId(user_id);
+                                            PrefManager.getInstance(LoginActivity.this).setFirstName(first_name);
+                                            PrefManager.getInstance(LoginActivity.this).setLastName(last_name);
+                                            PrefManager.getInstance(LoginActivity.this).setEmail(email);
+                                            PrefManager.getInstance(LoginActivity.this).setMobile(mobile_no);
+                                            PrefManager.getInstance(LoginActivity.this).setLoginAs("VENDOR");
+
+                                            if (reg_process_flag.equals("1"))
+                                            {
+                                                startActivity(new Intent(LoginActivity.this,VendorDetailsActivity.class));
+                                                finish();
+                                            }
+                                            else
+                                            {
+                                                startActivity(new Intent(LoginActivity.this,VendorHomeActivity.class));
+                                                finish();
+                                            }
+
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+
+                                    }
+                                });
+                                dialog.show();
+                            }
+
+
+
+
+
 
 
                         } else {

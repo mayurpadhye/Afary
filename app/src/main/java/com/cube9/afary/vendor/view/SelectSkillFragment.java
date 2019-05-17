@@ -1,6 +1,7 @@
 package com.cube9.afary.vendor.view;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -18,12 +19,14 @@ import android.widget.Toast;
 import com.cube9.afary.MainActivity;
 import com.cube9.afary.R;
 import com.cube9.afary.helperClass.CustomUtils;
+import com.cube9.afary.helperClass.PrefManager;
 import com.cube9.afary.vendor.model.SkillServicesPojo;
 import com.cube9.afary.vendor.presenter.IVenderSignUpPresenter;
 import com.cube9.afary.vendor.presenter.IVendorDetailsPresenter;
 import com.cube9.afary.vendor.presenter.SkillListAdapter;
 import com.cube9.afary.vendor.presenter.VendorDetailsImpl;
 import com.cube9.afary.vendor.presenter.VendorSignUpPresenter;
+import com.cube9.afary.vendor.vendor_dashbord.VendorHomeActivity;
 import com.valdesekamdem.library.mdtoast.MDToast;
 
 import org.json.JSONArray;
@@ -105,6 +108,7 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
 
     @OnClick(R.id.btn_submit)
     public void onNextClick() {
+
         select_cat_ids="";
         if (skillServicesPojoListAll.size() > 0) {
             for (int i = 0; i < skillServicesPojoListAll.size(); i++) {
@@ -119,8 +123,8 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
             }
         }
         if (!select_cat_ids.isEmpty()) {
-
-            iVendorDetailsPresenter.submitVendorDetails(MainServiceId, "3", select_cat_ids, file_profile, file_doc);
+            CustomUtils.ShowDialog(getActivity());
+            iVendorDetailsPresenter.submitVendorDetails(MainServiceId, PrefManager.getInstance(getActivity()).getUserId(), select_cat_ids, file_profile, file_doc);
         }
 
 
@@ -200,7 +204,21 @@ public class SelectSkillFragment extends Fragment implements IVenderSignUp.ISele
 
     @Override
     public void completeVendorRegistration(int result) {
-        Toast.makeText(getActivity(), ""+result, Toast.LENGTH_SHORT).show();
+
+        if (result==1)
+        {
+            CustomUtils.DismissDialog();
+            Toast.makeText(getActivity(), ""+result, Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(getActivity(),VendorHomeActivity.class));
+            getActivity().finish();
+
+        }
+        else
+        {
+            CustomUtils.DismissDialog();
+            Toast.makeText(getActivity(), ""+result, Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 

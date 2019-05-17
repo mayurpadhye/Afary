@@ -10,5 +10,6 @@ public interface IVendorDetailsModel {
 
     }
 
-    int completeVendorSignUp(String cat_id, String vendor_id, String service_id, File profile_image, File document_image);
+
+    int completeVendorSignUp(getVendorDetailsInterface getVendorDetailsInterface,String cat_id, String vendor_id, String service_id, File profile_image, File document_image);
 }
