@@ -305,21 +305,7 @@ public class TakePhotoFragment extends BackStackFragment {
                     dir.mkdirs();
                     File file1 = new File(dir, String.valueOf(System.currentTimeMillis())+".jpg");
                     file_profile=createImageFile();
-                    Reader pr;
-                    String line = "";
-                    try {
-                        pr = new FileReader(file1);
-                        int data1 = pr.read();
-                        while (data1 != -1) {
-                            line += (char) data1;
-                            data1 = pr.read();
-                        }
-                        pr.close();
-                    } catch (FileNotFoundException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+
 
 
 

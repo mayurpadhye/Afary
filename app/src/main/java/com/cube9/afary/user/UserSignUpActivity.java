@@ -46,8 +46,6 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 public class UserSignUpActivity extends AppCompatActivity {
-
-
     @BindView(R.id.et_f_name)
     EditText et_f_name;
     @BindView(R.id.et_last_name)
@@ -67,11 +65,9 @@ public class UserSignUpActivity extends AppCompatActivity {
     @BindView(R.id.sp_country)
     Spinner sp_country;
     AlertDialog waiting_dialog;
-
     List<String> listCountryName=new ArrayList<>();
     List<String> listCountryId=new ArrayList<>();
     String country_id="";
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -194,8 +190,6 @@ public class UserSignUpActivity extends AppCompatActivity {
                         spinnerArrayAdapter.setDropDownViewResource(android.R.layout
                                 .simple_spinner_dropdown_item);
                         sp_country.setAdapter(spinnerArrayAdapter);
-
-
                         waiting_dialog.dismiss();
                     } catch (JSONException | NullPointerException e) {
                         waiting_dialog.dismiss();
